@@ -12,6 +12,7 @@
   if (hasGsap && !reduceMotion) {
     root.classList.add("anim");
     gsap.registerPlugin(ScrollTrigger);
+    ScrollTrigger.config({ ignoreMobileResize: true });
   }
 
   /* ---------- Smooth scroll ---------- */
@@ -40,7 +41,13 @@
       header.classList.toggle("is-scrolled", y > 40);
       header.classList.toggle("is-hidden", y > lastY && y > 400 && !root.classList.contains("menu-open"));
     }
-    if (callbar) callbar.classList.toggle("is-visible", y > window.innerHeight * 0.6);
+    // Only reveal the mobile action bar while scrolling up (or at the very end), so it never covers text being read
+    if (callbar) {
+      var atEnd = window.innerHeight + y >= document.documentElement.scrollHeight - 4;
+      if (y < window.innerHeight * 0.6) callbar.classList.remove("is-visible");
+      else if (y < lastY - 4 || atEnd) callbar.classList.add("is-visible");
+      else if (y > lastY + 4) callbar.classList.remove("is-visible");
+    }
     lastY = y;
   }
   window.addEventListener("scroll", onScroll, { passive: true });
@@ -104,9 +111,9 @@
   /* ---------- Scroll reveals ---------- */
   if (hasGsap && !reduceMotion) {
     ScrollTrigger.batch("[data-reveal]:not([data-reveal='clip'])", {
-      start: "top 88%",
+      start: "top 94%",
       once: true,
-      onEnter: function (els) { gsap.to(els, { opacity: 1, y: 0, duration: 1.3, ease: "expo.out", stagger: 0.09 }); }
+      onEnter: function (els) { gsap.to(els, { opacity: 1, y: 0, duration: isDesktop ? 1.3 : 0.9, ease: "expo.out", stagger: isDesktop ? 0.09 : 0.05 }); }
     });
     gsap.utils.toArray("[data-reveal='clip']").forEach(function (el) {
       gsap.to(el, { clipPath: "inset(0% 0 0 0)", duration: 1.6, ease: "expo.inOut", scrollTrigger: { trigger: el, start: "top 85%", once: true } });
@@ -257,6 +264,31 @@
     });
   }
 
-  /* Refresh after fonts/images settle so pinned sections measure correctly */
-  if (hasGsap) window.addEventListener("load", function () { ScrollTrigger.refresh(); });
+  /* Re-measure whenever fonts or lazy images change the layout, otherwise reveal triggers sit at stale
+     positions and content further down the page can stay hidden (most visible on phones) */
+  if (hasGsap) {
+    var refreshTimer;
+    var queueRefresh = function () { clearTimeout(refreshTimer); refreshTimer = setTimeout(function () { ScrollTrigger.refresh(); }, 150); };
+    window.addEventListener("load", queueRefresh);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(queueRefresh);
+    document.querySelectorAll("img").forEach(function (img) { if (!img.complete) img.addEventListener("load", queueRefresh, { once: true }); });
+
+    // Safety net: anything that has already scrolled into view gets shown, whatever the trigger state
+    var sweepTimer;
+    window.addEventListener("scroll", function () {
+      clearTimeout(sweepTimer);
+      sweepTimer = setTimeout(function () {
+        var limit = window.innerHeight * 0.98;
+        document.querySelectorAll("[data-reveal]").forEach(function (el) {
+          var cs = getComputedStyle(el);
+          if (el.getBoundingClientRect().top < limit && (cs.opacity === "0" || cs.clipPath.indexOf("100%") > -1)) {
+            gsap.to(el, { opacity: 1, y: 0, clipPath: "inset(0% 0 0 0)", duration: 0.8, ease: "expo.out" });
+          }
+        });
+        document.querySelectorAll("[data-lines] .line > span, [data-intro] .line > span").forEach(function (el) {
+          if (el.getBoundingClientRect().top < limit && gsap.getProperty(el, "yPercent") > 50) gsap.to(el, { yPercent: 0, duration: 0.8, ease: "expo.out" });
+        });
+      }, 250);
+    }, { passive: true });
+  }
 })();
