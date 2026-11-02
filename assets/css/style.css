@@ -217,38 +217,6 @@ body::after {
 .preloader__bar span { display: block; height: 100%; width: 100%; background: var(--gold); transform-origin: left; transform: scaleX(0); }
 html:not(.js) .preloader, .preloader.is-skipped { display: none; }
 
-/* ---------- Custom cursor ---------- */
-.cursor, .cursor-dot {
-  position: fixed;
-  top: 0; left: 0;
-  z-index: 9999;
-  pointer-events: none;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-.cursor {
-  width: 38px; height: 38px;
-  border: 1px solid rgba(232, 211, 164, 0.6);
-  transition: width 0.4s var(--ease), height 0.4s var(--ease), background 0.4s, border-color 0.4s, opacity 0.3s;
-  display: grid;
-  place-items: center;
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: #0a0a0b;
-  font-weight: 700;
-}
-.cursor-dot { width: 5px; height: 5px; background: var(--gold-2); }
-.cursor.is-hover { width: 64px; height: 64px; background: rgba(232, 211, 164, 0.1); border-color: transparent; }
-.cursor.is-view { width: 96px; height: 96px; background: var(--gold-2); border-color: transparent; }
-.cursor .cursor__label { opacity: 0; transition: opacity 0.3s; }
-.cursor.is-view .cursor__label { opacity: 1; }
-@media (hover: hover) and (pointer: fine) {
-  html.has-cursor .cursor, html.has-cursor .cursor-dot { opacity: 1; }
-}
-
 /* ---------- Header ---------- */
 .header {
   position: fixed;

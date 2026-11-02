@@ -59,35 +59,6 @@
     });
   }
 
-  /* ---------- Custom cursor ---------- */
-  if (window.matchMedia("(hover: hover) and (pointer: fine)").matches && !reduceMotion) {
-    var cursor = document.createElement("div");
-    cursor.className = "cursor";
-    cursor.innerHTML = '<span class="cursor__label">View</span>';
-    var dot = document.createElement("div");
-    dot.className = "cursor-dot";
-    document.body.append(cursor, dot);
-    root.classList.add("has-cursor");
-    var mx = innerWidth / 2, my = innerHeight / 2, cx = mx, cy = my;
-    window.addEventListener("mousemove", function (e) {
-      mx = e.clientX; my = e.clientY;
-      dot.style.transform = "translate(" + mx + "px," + my + "px) translate(-50%,-50%)";
-    });
-    (function loop() {
-      cx += (mx - cx) * 0.16; cy += (my - cy) * 0.16;
-      cursor.style.transform = "translate(" + cx + "px," + cy + "px) translate(-50%,-50%)";
-      requestAnimationFrame(loop);
-    })();
-    document.querySelectorAll("a, button, summary, label, input, select, textarea").forEach(function (el) {
-      el.addEventListener("mouseenter", function () { cursor.classList.add("is-hover"); });
-      el.addEventListener("mouseleave", function () { cursor.classList.remove("is-hover"); });
-    });
-    document.querySelectorAll("[data-cursor='view']").forEach(function (el) {
-      el.addEventListener("mouseenter", function () { cursor.classList.add("is-view"); });
-      el.addEventListener("mouseleave", function () { cursor.classList.remove("is-view"); });
-    });
-  }
-
   /* ---------- Magnetic buttons ---------- */
   if (hasGsap && isDesktop && !reduceMotion) {
     document.querySelectorAll("[data-magnetic]").forEach(function (el) {
