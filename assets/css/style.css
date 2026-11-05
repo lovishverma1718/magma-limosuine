@@ -205,14 +205,7 @@ body::after {
   place-items: center;
 }
 .preloader__inner { text-align: center; }
-.preloader__mark { width: 64px; height: 64px; margin: 0 auto 22px; color: var(--gold); }
-.preloader__word {
-  font-family: var(--f-display);
-  font-size: clamp(32px, 4vw, 52px);
-  letter-spacing: 0.42em;
-  margin-right: -0.42em;
-  font-weight: 300;
-}
+.preloader__logo { width: min(300px, 70vw); height: auto; margin: 0 auto; }
 .preloader__bar { width: 180px; height: 1px; background: var(--line); margin: 26px auto 0; overflow: hidden; }
 .preloader__bar span { display: block; height: 100%; width: 100%; background: var(--gold); transform-origin: left; transform: scaleX(0); }
 html:not(.js) .preloader, .preloader.is-skipped { display: none; }
@@ -242,7 +235,9 @@ html:not(.js) .preloader, .preloader.is-skipped { display: none; }
   gap: 24px;
 }
 .logo { display: inline-flex; align-items: center; gap: 14px; }
-.logo__mark { width: 34px; height: 34px; color: var(--gold); flex: none; }
+.logo__mark { height: 38px; width: auto; flex: none; }
+.footer__logo { display: inline-block; }
+.footer__logo img { width: 230px; height: auto; }
 .logo__text { display: flex; flex-direction: column; line-height: 1; }
 .logo__name { font-family: var(--f-display); font-size: 24px; letter-spacing: 0.36em; font-weight: 400; }
 .logo__sub { font-size: 8.5px; letter-spacing: 0.5em; color: var(--muted); margin-top: 6px; text-transform: uppercase; }
@@ -852,7 +847,8 @@ html.anim [data-reveal="clip"] { opacity: 1; transform: none; clip-path: inset(1
 
   .logo__name { font-size: 20px; letter-spacing: .3em; }
   .logo__sub { font-size: 7.5px; letter-spacing: .4em; }
-  .logo__mark { width: 30px; height: 30px; }
+  .logo__mark { height: 32px; }
+  .footer__logo img { width: 200px; }
 
   .btn { padding: 0 26px; letter-spacing: .18em; }
   .cta__actions { flex-direction: column; align-items: stretch; max-width: 320px; margin: 0 auto; }

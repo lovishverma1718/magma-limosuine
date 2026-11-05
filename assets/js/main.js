@@ -97,8 +97,7 @@
     } else {
       if (lenis) lenis.stop();
       gsap.timeline()
-        .from(".preloader__mark", { scale: 0.6, opacity: 0, duration: 0.8, ease: "expo.out" })
-        .from(".preloader__word", { letterSpacing: "0.9em", opacity: 0, duration: 1.1, ease: "expo.out" }, 0.1)
+        .from(".preloader__logo", { scale: 0.86, opacity: 0, filter: "blur(8px)", duration: 1.2, ease: "expo.out" })
         .to(".preloader__bar span", { scaleX: 1, duration: 1, ease: "power2.inOut" }, 0.2)
         .to(".preloader", { clipPath: "inset(0 0 100% 0)", duration: 1, ease: "expo.inOut" }, "+=0.15")
         .add(function () { preloader.classList.add("is-skipped"); if (lenis) lenis.start(); })
