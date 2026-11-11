@@ -441,6 +441,10 @@ html:not(.js) .preloader, .preloader.is-skipped { display: none; }
 .intro__badge text { font-size: 10.5px; letter-spacing: 0.36em; fill: var(--gold-2); text-transform: uppercase; font-family: var(--f-body); }
 .intro__badge b { font-family: var(--f-display); font-size: 40px; font-weight: 300; color: var(--gold); }
 @keyframes spin { to { transform: rotate(360deg); } }
+/* Single business-card image in place of the photo collage */
+.intro__media--card { aspect-ratio: auto; }
+.intro__card { overflow: hidden; background: #fff; border-radius: 6px; box-shadow: 0 30px 80px -30px rgba(0,0,0,.8), 0 0 0 1px var(--line-2); }
+.intro__card img { width: 100%; height: auto; }
 .intro__body .h2 { margin: 26px 0 30px; }
 .intro__body p { color: var(--ink-2); font-weight: 300; margin: 0 0 20px; max-width: 52ch; }
 .signature { display: flex; align-items: center; gap: 18px; margin-top: 36px; padding-top: 30px; border-top: 1px solid var(--line); }
@@ -803,6 +807,7 @@ html.anim [data-reveal="clip"] { opacity: 1; transform: none; clip-path: inset(1
 
   /* Intro collage: simple stack, no floating badge over photos */
   .intro__media { aspect-ratio: auto; display: grid; grid-template-columns: 1.4fr 1fr; gap: 10px; }
+  .intro__media--card { display: block; }
   .intro__img { position: relative; inset: auto; }
   .intro__img--a { aspect-ratio: 4 / 5; }
   .intro__img--b { width: auto; aspect-ratio: auto; border: 0; align-self: end; height: 70%; }
